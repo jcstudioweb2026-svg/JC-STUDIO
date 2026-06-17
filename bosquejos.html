@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>bosquejos de sermones</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+overflow:hidden;
+}
+
+/* PANTALLAS */
+
+.pantalla{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+transition:0.5s;
+overflow-y:auto;
+
+background-image:
+linear-gradient(rgba(255,255,255,0.82),
+rgba(255,255,255,0.82)),
+url('24262.jpg');
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+}
+
+.oculta{
+display:none;
+}
+
+
+/* TITULOS */
+
+h1{
+font-size:34px;
+color:#5b4636;
+margin-bottom:20px;
+text-align:center;
+font-weight:bold;
+}
+
+h2{
+font-size:28px;
+margin-bottom:20px;
+color:#5b4636;
+text-align:center;
+}
+
+/* BOTONES */
+
+button{
+border:none;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+font-weight:bold;
+}
+
+/* BOTON INGRESAR */
+
+.botonIngreso{
+width:180px;
+padding:12px;
+font-size:16px;
+background:#6d6875;
+color:white;
+}
+
+.botonIngreso:hover{
+background:#56505c;
+}
+
+/* BOTONES TEMAS AZULES */
+
+.botonTema{
+width:100%;
+max-width:500px;
+padding:16px;
+margin:8px 0;
+font-size:17px;
+background:#2563eb;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+border:none;
+border-radius:15px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.botonTema:hover{
+background:#1d4ed8;
+}
+
+.botonTema:active{
+transform:scale(0.98);
+}
+
+/* BOTONES PEQUEÑOS */
+
+.botonPequeno{
+width:140px;
+padding:10px;
+font-size:14px;
+background:#6d6875;
+color:white;
+margin:5px;
+}
+
+.botonPequeno:hover{
+background:#56505c;
+}
+
+/* VERSICULO */
+
+.versiculo{
+background:rgba(255,255,255,0.92);
+padding:20px;
+border-radius:18px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+line-height:1.8;
+font-size:18px;
+text-align:center;
+max-width:700px;
+margin-bottom:20px;
+color:#3d3d3d;
+}
+
+/* TEMAS */
+
+.tema{
+width:100%;
+max-width:900px;
+background:rgba(255,255,255,0.94);
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+line-height:1.9;
+font-size:18px;
+white-space:pre-line;
+margin-top:20px;
+color:#333;
+}
+
+/* BOTON SUPERIOR */
+
+.top{
+align-self:flex-start;
+margin-bottom:10px;
+}
+
+/* BOTON FINAL */
+
+.bottom{
+margin-top:25px;
+}
+
+/* SCROLL */
+
+.scroll{
+overflow-y:auto;
+justify-content:flex-start;
+padding-top:30px;
+padding-bottom:50px;
+}
+
+.contenedorMenu{
+position:fixed;
+top:15px;
+right:15px;
+z-index:9999;
+}
+
+
+.botonElipsis{
+width:45px;
+height:45px;
+border-radius:50%;
+font-size:24px;
+background:#6d6875;
+color:white;
+}
+
+.menuTema{
+position:absolute;
+top:50px;
+right:0;
+background:white;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+padding:5px;
+display:flex;
+flex-direction:column;
+gap:3px;
+min-width:120px;
+}
+
+.ocultaMenu{
+display:none;
+}
+
+.menuTema button{
+padding:6px 8px;
+font-size:12px;
+}
+#busqueda{
+width:200px;
+padding:12px;
+margin:15px 0;
+border-radius:12px;
+border:1px solid #ccc;
+font-size:16px;
+}
+</style>
+</head>
+<body>
+
+<!-- BOTÓN ELIPSIS -->
+
+<div class="contenedorMenu">
+
+<button class="botonElipsis"
+onclick="abrirMenuTema()">
+?
+</button>
+
+<div id="menuTema" class="menuTema">
+
+<button onclick="cambiarTema('claro')">Claro</button>
+<button onclick="cambiarTema('oscuro')">Oscuro</button>
+<button onclick="cambiarTema('azul')">Azul</button>
+<button onclick="cambiarTema('biblico')">Bíblico</button>
+<button onclick="cambiarTema('atardecer')">Atardecer</button>
+<button onclick="cambiarTema('oceano')">Océano</button>
+<button onclick="cambiarTema('bosque')">Bosque</button>
+<button onclick="cambiarTema('morado')">Morado</button>
+<button onclick="cambiarTema('dorado')">Dorado</button>
+
+</div>
+</div>
+<!-- PANTALLA INICIAL -->
+
+<div class="pantalla" id="inicio">
+<h1>Bosquejos de un Predicador</h1>
+<div class="versiculo">
+“la exposición de tus palabras alumbra; hace entender a los simples.”
+
+<br><br>
+salmos 119: 130
+</div>
+
+<button class="botonIngreso" onclick="abrirPantalla('pantalla1')">
+Ingresar
+</button>
+
+<br><br>
+<div class="autor">
+“Escrito por: Jhon Caro Aguilera”
+</div>
+
+
+</div>
+
+<!-- PANTALLA 1 -->
+
+<div class="pantalla scroll oculta" id="pantalla1">
+
+<h1>Bosquejos de predicaciones</h1>
+
+<input type="text" 
+id="busqueda" 
+placeholder="Buscar tema..." 
+onkeyup="filtrarTemas()">
+
+<button class="botonPequeno" onclick="abrirPantalla('inicio')">
+Atrás
+</button>
+
+<button class="botonTema" onclick="abrirTema(0)">
+INTRODUCCIÓN
+</button>
+
+<button class="botonTema" onclick="abrirTema(1)">
+Preservando lo que Dios nos ha dado
+</button>
+
+<button class="botonTema" onclick="abrirTema(2)">
+Una vida en el evangelio
+</button>
+
+<button class="botonTema" onclick="abrirTema(3)">
+LA SANTIFICACION
+</button>
+
+<button class="botonTema" onclick="abrirTema(4)">
+EL ARREPENTIMIENTO
+</button>
+
+<button class="botonTema" onclick="abrirTema(5)">
+LA CONVERSIÓN
+</button>
+
+<button class="botonTema" onclick="abrirTema(6)">
+EL BAUTISMO EN AGUA 
+</button>
+
+<button class="botonTema" onclick="abrirTema(7)">
+EL BAUTISMO DEL ESPIRITU SANTO
+</button>
+
+<button class="botonTema" onclick="abrirTema(8)">
+EL NUEVO NACIMIENTO
+</button>
+
+<button class="botonTema" onclick="abrirTema(9)">
+EL NOMBRE DE DIOS
+</button>
+
+<button class="botonTema" onclick="abrirTema(10)">
+LA UNICIDAD DE DIOS
+</button>
+
+<button class="botonTema" onclick="abrirTema(11)">
+LA REDENCION
+</button>
+
+<button class="botonTema" onclick="abrirTema(12)">
+LA PERSEVERANCIA
+</button>
+
+<button class="botonTema" onclick="abrirTema(13)">
+LA RECONCILIACION
+</button>
+
+<button class="botonTema" onclick="abrirTema(14)">
+LA ADOPCION
+</button>
+
+<button class="botonTema" onclick="abrirTema(15)">
+LA PROPICIACION
+</button>
+
+
+</div>
+
+<!-- PANTALLA TEMA -->
+
+<div class="pantalla scroll oculta" id="temaPantalla">
+
+<button class="top botonPequeno" onclick="abrirPantalla('pantalla1')">
+? Volver
+</button>
+
+<h1 id="tituloTema"></h1>
+
+<div class="tema" id="contenidoTema"></div>
+
+<button class="bottom botonPequeno" onclick="abrirPantalla('pantalla1')">
+Volver
+</button>
+
+</div>
+<div id="configuracion"
+style="
+position:fixed;
+top:20px;
+right:20px;
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+z-index:1000;">
+
+</div>
+<script>
+
+/* TEMAS */
+
+const temas = [
+
+{
+titulo:"INTRODUCCIÓN",
+
+contenido:`
+Los bosquejos de predicaciones son una herramienta de apoyo para el estudio, la enseñanza y la exposición de la Palabra de Dios. Su propósito es servir como guía para desarrollar mensajes bíblicos con orden, claridad y fundamento doctrinal.
+
+Cada tema ha sido preparado con referencias bíblicas, definiciones y conceptos esenciales que ayudan a comprender las verdades fundamentales de la fe cristiana. Estos bosquejos no sustituyen el estudio personal de las Escrituras ni la dirección del Espíritu Santo, sino que constituyen un recurso para fortalecer la preparación de sermones, clases bíblicas y enseñanzas.
+
+Se recomienda leer cuidadosamente cada pasaje citado, meditar en su contenido y complementar el estudio con oración y búsqueda constante de la voluntad de Dios.
+
+"Procura con diligencia presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad." (2 Timoteo 2:15)
+`
+},
+
+{
+titulo:"Preservando lo que Dios nos ha dado",
+
+contenido:`
+"Jehová te guardará de todo mal; él guardará tu alma." Salmos 121:7–8
+
+Preservar = guardar, proteger y conservar conforme a la voluntad de Dios.
+
+Introducción:
+Preservar no es simplemente guardar algo físicamente; bíblicamente implica cuidar lo que Dios nos ha confiado: nuestra vida, fe, familia y relación con Él.
+
+1. Dios es quien preserva a su pueblo
+
+Salmos 121:7–8 "Jehová te guardará de todo mal; El guardará tu alma. Jehová guardará tu salida y tu entrada Desde ahora y para siempre."
+
+Dios preserva nuestra vida, Dios preserva nuestro caminar, Dios preserva nuestra alma.
+Confiar en la protección de Dios aun en tiempos difíciles.
+
+2. Debemos preservar nuestra fe
+Judas 1:21 "conservaos en el amor de Dios, esperando la misericordia de nuestro Señor Jesucristo para vida eterna."
+
+Permanecer en el amor de Dios, Evitar aquello que debilita la vida espiritual, Alimentar la fe con oración y la Palabra.
+Aplicación:
+Lo que no se cuida puede debilitarse.
+
+3. Debemos preservar nuestro corazón
+Proverbios 4:23  "Sobre toda cosa guardada, guarda tu corazón; Porque de él mana la vida."
+
+Del corazón salen las decisiones, hay que cuidar pensamientos y actitudes, debemos evitar la contaminación espiritual.
+Aplicación: Lo que entra al corazón influye en la vida.
+
+4. Debemos preservar el propósito que Dios nos dio
+2 Timoteo 1:14 "Guarda el buen depósito por el Espíritu Santo que mora en nosotros."
+
+-Guardar el buen depósito.
+-Ser fieles al llamado recibido.
+-Permanecer constantes.
+
+Aplicación: 
+Dios nos confía dones y responsabilidades.
+
+Conclusión:
+Dios preserva a sus hijos, pero también nos llama a cuidar lo que Él ha puesto en nuestras manos.
+Frase final:
+"Lo que Dios entrega, el creyente debe valorar; lo que se valora, se cuida; y lo que se cuida, se preserva."
+
+`
+},
+
+
+
+{
+titulo:"Una vida en el evangelio",
+
+contenido:`
+¿Qué es una vida en el Evangelio?
+2 Corintios 5:17 "De modo que si alguno está en Cristo, nueva criatura es; las cosas viejas pasaron; he aquí todas son hechas nuevas."
+
+Introducción
+Muchas personas conocen el evangelio, han oido muchas veces este tema y aunque es de vital importancia para el ser humano, desconocen la gran bendicion que es vivir una vida en el evangelio. 
+vivir el evangelio es más que asistir a una iglesia o decir que se cree en Dios, es una vida transformada por Cristo, es vivir teniendo el conocimiento de como agradar a Dios.
+
+Muchas veces la gente desconoce la fe que practica, no saben si lo que han creido por muchos años es aprobado por Dios, por que aunque el hombre apruebe muchas cosas sin embargo Dios ha establecido unas ordenanzas, y estas las encontramos escritas en la biblia, ella es la palabra de Dios.
+
+El Señor Jesucristo dice en san juan capitulo 7: 38 "El que cree en mi, como dice la escritura, de su interior correran rios de agua viva".
+Ahi vemos que el señor establece, que el creer en El, se debe hacer como dice su palabra, cualquier otra forma de creencia o enseñanza que no es basada en la biblia no es valida delante de Dios. Al ver el proposito con el cual Dios ha dejado su palabra, encontramos que la finalidad de Dios atravez de su palabra, que el hombre de Dios sea perfecto, y preparado para toda buena obra". (2 timoteo 3: 16) "Toda la Escritura es inspirada por Dios, y útil para enseñar, para redargüir, para corregir, para instruir en justicia, (17) a fin de que el hombre de Dios sea perfecto, enteramente preparado para toda buena obra". 
+
+"Ejemplo"
+por muchos años nos han enseñado que hay que persignarse, y esta practica hace referencia ha hacer la señal de la cruz sobre el cuerpo, y que de esta manera se profesa la fe cristiana y tambien se declara proteccion y bendicion.
+
+pero realmente esto es asi? cuando vemos el entorno biblico y tambien nuestro entorno cultural, la cruz es simbolo de muerte, por eso es que cuando alguien muere y tambien en los cementerios, colocan una cruz como representacion de esa muerte .
+Al conocer este significado de la cruz quiero hacerte una pregunta ¿sabes realmente lo que pasa cuando haces esa practica? dejame aclararte algo, nos han enseñado hacer la practica, pero ¿nos han enseñado su significado y compromiso al realizarla?
+ 
+cuando alguien se persigna mas que realizar una practica debe de saber a lo que se esta comprometiendo, si usted se persigna esta haciendo un compromiso a morir, pues la cruz simboliza la muerte, a que cosas se compromete a morir?, a los malos pensamientos, a las malas palabras y tambien a todo lo malo que pueda salir de tu corazon, pero si eres capaz de lograrlo?  marcos 7: 21 Porque de dentro, del corazón de los hombres, salen los malos pensamientos, los adulterios, las fornicaciones, los homicidios, 22 los hurtos, las avaricias, las maldades, el engaño, la lascivia, la envidia, la maledicencia, la soberbia, la insensatez.
+23 Todas estas maldades de dentro salen, y contaminan al hombre. 
+
+Por eso es que vivir la vida en el evangelio es algo diferente y debe ser diferente, Dios jamas ha establecido que el hombre viva una vida de religion, incluso cuando El Señor Jesucristo vino a este mundo establece la ordenanza de vivir el evangelio,  marcos 1: 15 "El tiempo se ha cumplido, y el reino de Dios se ha acercado; arrepentíos, y creed en el evangelio". 
+
+sabe usted por que dio esta ordenanza? por que ya existian muchas religiones, algunas de ellas eran los saduceos, los fariseos, los herodianos, los zelotes, los escribas...etc. 
+Y todos ellos tenian conocimiento de Dios, y lo nombraban, hacian ciertos ritos de vida religiosa, pero eso no fue suficiente, es que la religion no salva a nadie, de hecho miramos a muchos religiosos de esa epoca, que se convirtieron, al evangelio de nuestro señor Jesucristo, mensaje que al igual que hoy era anunciado, y fue realizado por los apostoles.
+
+1) vivir una vida en el evangelio es tener claridad a la luz de la palabra de Dios de lo que se practica, de lo que se enseña. salmos 119: 105 Lámpara es a mis pies tu palabra, Y lumbrera a mi camino.
+
+2) vivir una vida en el evangelio comienza con un nuevo nacimiento Juan 3:3 "El que no naciere de nuevo, no puede ver el reino de Dios." 
+
+El evangelio produce un cambio interior, No es solo una reforma externa; es una transformación espiritual. por que Cristo cambia el corazón el corazon del hombre, No basta con conocer la Biblia; es necesario obecer para poder ser transformado espiritualmente.
+
+3). Una vida en el evangelio vive por fe: Gálatas 2:20 "Con Cristo estoy juntamente crucificado, y ya no vivo yo, mas vive Cristo en mí; y lo que ahora vivo en la carne, lo vivo en la fe del Hijo de Dios, el cual me amó y se entregó a sí mismo por mí".
+
+el que vive la vida en el evangelio Cristo pasa a ser el centro de su vida, pues Se aprende a depender de Dios diariamente, y por esa fe guíamos nuestras decisiones.
+
+que bueno es preguntarnos hoy ¿Estoy viviendo según mi voluntad o según la voluntad de Cristo?
+
+4). Una vida en el evangelio produce frutos: Gálatas 5:22–23 "22Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe,
+mansedumbre, templanza; contra tales cosas no hay ley".
+
+El cambio verdadero se refleja en la conducta, el creyente desarrolla carácter espiritual, el fruto demuestra la obra de Dios, Los demás deben poder ver a Cristo en nuestras acciones.
+
+5). Una vida en el evangelio persevera hasta el final Mateo 24:13 "Mas el que persevere hasta el fin, éste será salvo."
+
+Habrá pruebas y dificultades, pero el creyente continúa firme, Dios fortalece a los que permanecen en Él. La vida cristiana es una carrera de constancia.
+
+Filipenses 1:21
+"Porque para mí el vivir es Cristo, y el morir es ganancia."
+
+6) una vida en el evangelio nos hace heredar salvacion y vida eterna, ser librados del juicio eterno que se aproxima donde nadie podra escapar asi ponga su habitacion en la luna o en cualquiera de los planetas. 
+
+2 corintios 5: 10 "Porque es necesario que todos nosotros comparezcamos ante el tribunal de Cristo, para que cada uno reciba según lo que haya hecho mientras estaba en el cuerpo, sea bueno o sea malo".
+
+2 pedro 3: 7 "pero los cielos y la tierra que existen ahora, están reservados por la misma palabra, guardados para el fuego en el día del juicio y de la perdición de los hombres impíos".
+
+hoy todavia hay un Llamado:
+¿Estas solamente escuchando el evangelio o estas viviendo el evangelio?
+Le invito para que viva la vida conforme al evangelio de nuestro señor Jesucristo, ya no vivas mas conforme a sus pensamientos mejor es direccionar nuestra conducta antes de que se ha demasiado tarde.
+
+apocalipsis 22: 12 "He aquí yo vengo pronto, y mi galardón conmigo, para recompensar a cada uno según sea su obra".
+
+`
+},
+
+{
+titulo:"LA SANTIFICACION",
+
+contenido:`
+DEFINICIÓN Y CONCEPTO
+Santificación. Del hebreo hsedok, kodesh ó qadash, brillo, separar, apartar; del griego hagios ?hagios, santo, santidad, santificar, santificado, santificación.  
+`
+},
+
+{
+titulo:"EL ARREPENTIMIENTO",
+
+contenido:`
+
+`
+},
+
+{
+titulo:"LA CONVERSION",
+
+contenido:`
+
+`
+},
+
+{
+titulo:"EL BAUTISMO EN AGUA",
+
+contenido:`
+
+`
+},
+{
+titulo:"EL BAUTISMO DEL ESPIRITU SANTO",
+
+contenido:`
+
+`
+},
+{
+titulo:"EL NUEVO NACIMIENTO",
+
+contenido:`
+
+`
+},
+{
+titulo:"EL NOMBRE DE DIOS",
+
+contenido:`
+
+`
+},
+{
+titulo:"LA UNICIDAD DE DIOS",
+
+contenido:`
+
+`
+},
+{
+titulo:"LA REDENCION",
+
+contenido:`
+DEFINICIÓN Y CONCEPTO
+Redención: Significa liberación de algún mal mediante el pago de un precio. Es algo más que simple liberación. Rescate del griego lytron. 
+El grupo de palabras basado en lytron se formó específicamente para transmitir esta idea de liberación mediante el pago de rescate. En este círculo de ideas, podemos considerar que la muerte de Cristo fue ?un rescate por muchos (Marcos 10:45).
+
+ ALGUNOS EJEMPLOS DE REDENCIÓN
+Los prisioneros de guerra podían ser liberados mediante el pago de un precio que se llama rescate.
+
+También podían ser liberados los esclavos mediante un mecanismo de rescate. En la compra ficticia por un dios, el esclavo podía pagar el precio de su libertad al tesoro del templo, y entonces debía pagar por la solemne formalidad de ser vendido al dios para libertad.
+Técnicamente, seguían siendo esclavos del dios, y en consecuencia podía asignársele alguna obligación piadosa. Pero en lo que se refería a los hombres, quedaba libre a partir de ese momento. Alternativamente el esclavo podía simplemente pagar el precio a su amo. Lo característico de ambas formas de liberación es el pago del precio del rescate ?lytron =
+Redención, es el nombre que se da a este procedimiento.
+
+Entre los hebreos podemos ver una situación diferente, bien ilustrada en (Éxodo 21:28-30). Si un hombre tenía un buey peligroso debía tenerlo guardado. Si se escapaba y corneaba a alguien de modo que le producía la muerte la ley era clara:
+
+?el buey será apedreado y también morirá su dueño. Pero aquí no se trata de un homicidio voluntario o elevadamente
+premeditado. 
+Por ello está estipulado que puede pagarse un rescate ?cofer. Podía pagar una suma de dinero y de ese modo redimir su vida prendada.
+La redención efectuada por el pariente cercano (del hebreo leog ?goel (Isaías 49:24-25;
+Hebreos 2:14; Gálatas 4:4), tenía que ver con personas y con una herencia (Levítico 25:48;
+25:25; Efesios 1: 7, 11,14).
+El Redentor debe ser un pariente cercano (Rut 3:12,13; Gálatas 4:4-5; Hebreos 2:14,15).
+
+El Redentor debe ser capaz de redimir (Rut 4:4-6; Jeremías 50:34; Juan 10:11,18).
+
+La redención se efectúa cuando el ?goel? paga de una manera completa lo que justamente se
+demanda (Levítico 25:27; 1ª Pedro 1:18, 19; Gálatas 3:13; Éxodo 14:30; Romanos 3:24).
+
+Otros usos de rescate en la antigüedad se refieren a la redención de la propiedad, etc.; pero los
+que hemos detallado son los más importantes. Tienen en común la idea de una libertad asegurada
+mediante el pago de un precio. El pago de un precio para obtener la libertad es lo fundamental y
+característico.
+Esto es lo que hace tan útil el concepto para los cristianos primitivos. Jesús le había dicho que todo aquel que hace pecado, esclavo es del pecado (Juan 8:34). 
+Consecuentemente, Pablo se considera ?carnal, vendido al pecado (Romanos 7:14), vendido como bajo un cruel amo de
+esclavos. A los romanos les recuerda que en épocas pasadas ellos también habían sido ?esclavos
+
+del pecado (Romanos 6:17). Desde un punto de vista diferente, los hombres fueron condenados a muerte, porque la paga del pecado es muerte (Romanos 6:23). Los pecadores son esclavos, están condenados a morir, cualquiera sea el concepto que adoptemos, el mundo antiguo había considerado que la situación era tal que se hacía necesaria la redención. De no ser así, la esclavitud continuaría y tendría que llevarse a cabo la sentencia de muerte. Contra ese transfundo se manifiesta Cristo. La muerte de Cristo en la Cruz es el precio pagado para liberar a los esclavos y poner en libertad al condenado.
+
+La voz característica neotestamentaria y hebrea referida a la Redención es apolytrosis, palabra poco usada en otras partes, comparativamente. La encontramos 10 veces en el Nuevo Testamento pero aparentemente sólo 8 veces aparece en el resto de la literatura griega. Es posible que esto indique la convicción de los cristianos primitivos de que la Redención lograda por Jesucristo fue única. No significa como algunos han querido verlo, que entiendan que la redención no era más que ?liberación. Para esto último empleaban términos como rhyomai, ?rescate.
+
+Apolytrosis significa liberación mediante el pago de un precio, que en este caso fue la muerte
+expiatoria del Salvador. Cuando leemos a cerca de ?Redención por su Sangre (Efesios 1:7),
+evidentemente se entiende que la Sangre de Cristo es el precio de la redención.
+
+Lo mismo ocurre con (Romanos 3:24) ?siendo justificados gratuitamente por su Gracia, mediante la
+redención que es en Cristo Jesús, a quien Dios puso como propiciación por medio de la fe en su
+Sangre. Aquí Pablo se vale de tres metáforas, la del tribunal de justicia, la de los sacrificios, y la
+de la manumisión (acción de liberar a un esclavo). A nosotros nos interesa la última. Pablo ve un
+mecanismo de liberación, pero mediante el pago de un precio, la Sangre de Cristo.
+
+También en (Hebreos 9:15) la Redención está realizada con la muerte de Cristo. Además, a veces
+parece la mención de precio, pero no de redención, como en las referencias al haber sido
+?comprados por precio (1ª Corintios 6:19s; 7:22s). La idea básica es la misma. 
+Cristo compró a los hombres mediante el precio de su Sangre. En (Gálatas 3:13) el precio de la redención se
+expresa con las palabras ?hecho por nosotros maldición. Cristo nos redimió al tomar nuestro
+lugar, al cargar con nuestra maldición. Esto nos hace ver claramente la idea de la sustitución en la
+Redención, idea que a veces se destaca, como ocurre en (Marcos 10:45) ?en rescate por muchos.
+
+La redención no sólo vuelve la mira al Calvario, sino también a la libertad de que gozan los
+redimidos. ?habéis sido comprados por precio, dice Pablo, ?glorificad, pues, a Dios en vuestro
+cuerpo y en vuestro espíritu (1ª Corintios 6:20). Precisamente, porque hemos sido redimidos a
+ese costo, los creyentes debemos ser hombres de Dios. Debemos mostrar en la manera de vivir
+que ya no estamos sujetos al cautiverio de que hemos sido liberados, y se nos exhorta a
+mantenernos, por lo tanto, ?firmes en la libertad con que Cristo nos hizo libres (Gálatas 5:1).
+`
+},
+{
+titulo:"LA PERSEVERANCIA",
+
+contenido:`
+
+`
+},
+{
+titulo:"LA RECONCILIACION",
+
+contenido:`
+
+`
+},
+{
+titulo:"LA ADOPCION",
+
+contenido:`
+
+`
+},
+{
+titulo:"LA PROPICIACION",
+
+contenido:`
+
+`
+},
+
+];
+
+/* ABRIR PANTALLAS */
+
+function abrirPantalla(id){
+
+let pantallas = document.querySelectorAll('.pantalla');
+
+pantallas.forEach(pantalla=>{
+pantalla.classList.add('oculta');
+});
+
+document.getElementById(id).classList.remove('oculta');
+
+}
+
+/* ABRIR TEMA */
+
+function abrirTema(index){
+
+document.getElementById('pantalla1')
+.classList.add('oculta');
+
+document.getElementById('temaPantalla')
+.classList.remove('oculta');
+
+document.getElementById('tituloTema')
+.innerText = temas[index].titulo;
+
+document.getElementById('contenidoTema')
+.innerText = temas[index].contenido;
+
+}
+
+/* CAMBIAR TEMA */
+
+/* CAMBIAR TEMA */
+
+function cambiarTema(tipo){
+
+let fondo = document.querySelectorAll(".pantalla");
+
+fondo.forEach(p=>{
+
+    if(tipo=="claro"){
+        p.style.background =
+        "linear-gradient(rgba(255,255,255,0.82),rgba(255,255,255,0.82)), url('24262.jpg')";
+    }
+
+    else if(tipo=="oscuro"){
+        p.style.background =
+        "linear-gradient(135deg,#232526,#414345)";
+    }
+
+    else if(tipo=="azul"){
+        p.style.background =
+        "linear-gradient(135deg,#1e3c72,#2a5298)";
+    }
+
+    else if(tipo=="biblico"){
+        p.style.background =
+        "linear-gradient(135deg,#c79081,#dfa579)";
+    }
+
+    else if(tipo=="atardecer"){
+        p.style.background =
+        "linear-gradient(135deg,#ff7e5f,#feb47b)";
+    }
+
+    else if(tipo=="oceano"){
+        p.style.background =
+        "linear-gradient(135deg,#2193b0,#6dd5ed)";
+    }
+
+    else if(tipo=="bosque"){
+        p.style.background =
+        "linear-gradient(135deg,#134e5e,#71b280)";
+    }
+
+    else if(tipo=="morado"){
+        p.style.background =
+        "linear-gradient(135deg,#654ea3,#eaafc8)";
+    }
+
+    else if(tipo=="dorado"){
+        p.style.background =
+        "linear-gradient(135deg,#b79826,#ffd700)";
+    }
+
+    p.style.backgroundSize = "cover";
+});
+
+localStorage.setItem(
+    "temaSeleccionado",
+    tipo
+);
+
+document.getElementById("menuTema").style.display = "none";
+}
+
+/* MENU */
+
+function abrirMenuTema(){
+
+let menu =
+document.getElementById("menuTema");
+
+if(menu.style.display=="flex"){
+    menu.style.display="none";
+}else{
+    menu.style.display="flex";
+}
+
+}
+
+/* CARGAR TEMA GUARDADO */
+
+window.onload = ()=>{
+
+let temaGuardado =
+localStorage.getItem(
+"temaSeleccionado"
+);
+
+if(temaGuardado){
+    cambiarTema(temaGuardado);
+}
+
+};
+function filtrarTemas() {
+
+let texto =
+document.getElementById("busqueda")
+.value.toLowerCase();
+
+let botones =
+document.querySelectorAll(".botonTema");
+
+botones.forEach(boton => {
+
+if (boton.innerText.toLowerCase().includes(texto)) {
+boton.style.display = "block";
+} else {
+boton.style.display = "none";
+}
+
+});
+
+}
+
+
+</script>
+
+</body>
+</html>
