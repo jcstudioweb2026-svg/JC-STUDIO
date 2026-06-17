@@ -1,0 +1,1976 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Music flow</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(
+    180deg,
+    #10145c,
+    #22003f,
+    #550028
+    );
+
+    color:white;
+    min-height:100vh;
+    padding-bottom:100px;
+}
+
+/* HEADER */
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px;
+
+    font-size:22px;
+    font-weight:bold;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.header-icons{
+    display:flex;
+    gap:18px;
+    font-size:22px;
+}
+
+/* MENU */
+
+.tabs{
+
+    display:flex;
+    overflow-x:auto;
+    gap:15px;
+
+    padding:10px 15px;
+}
+
+.tab{
+
+    min-width:max-content;
+
+    padding:12px 18px;
+
+    border-radius:30px;
+
+    background:transparent;
+
+    color:white;
+
+    border:none;
+
+    font-size:15px;
+
+    font-weight:bold;
+}
+
+.tab.active{
+
+    background:#5055a8;
+}
+
+/* INFO */
+
+.info{
+
+    padding:25px 20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.shuffle{
+    color:#ff4c8b;
+    font-weight:bold;
+    font-size:18px;
+    cursor:pointer;
+}
+
+/* LISTA */
+
+.lista{
+
+    padding:0 10px;
+}
+
+.item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:12px 10px;
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.item-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    width:80%;
+}
+
+.item img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:6px;
+
+    object-fit:cover;
+}
+
+.song-info{
+
+    overflow:hidden;
+}
+
+.song-title{
+
+    font-size:18px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.song-artist{
+
+    color:#cfcfcf;
+
+    margin-top:4px;
+
+    font-size:14px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.song-time{
+
+    color:#d0d0d0;
+
+    font-size:16px;
+}
+
+/* MINI PLAYER */
+
+.player{
+
+    position:fixed;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    background:#5b0033;
+
+    padding:12px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.player-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    width:70%;
+}
+
+.player img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:5px;
+
+    object-fit:cover;
+}
+
+.player-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    font-size:24px;
+}
+
+.player-song{
+
+    overflow:hidden;
+}
+
+.player-song h4{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.player-song p{
+
+    color:#ddd;
+
+    font-size:13px;
+}
+
+audio{
+    display:none;
+}
+
+input[type=file]{
+    display:none;
+}
+
+.importar{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:90px;
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    background:#ff2e74;
+
+    color:white;
+
+    border:none;
+
+    font-size:25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:0 5px 10px rgba(0,0,0,0.4);
+}
+.barra-container{
+    width:100%;
+    padding:0 10px;
+}
+
+#barraProgreso{
+    width:100%;
+}
+.menu-btn{
+background:none;
+border:none;
+color:white;
+font-size:25px;
+cursor:pointer;
+}
+
+.drawer{
+position:fixed;
+top:0;
+left:-300px;
+width:300px;
+height:100%;
+background:#0d2363;
+z-index:9999;
+transition:.4s;
+overflow-y:auto;
+box-shadow:5px 0 20px rgba(0,0,0,.5);
+}
+
+.drawer.active{
+left:0;
+}
+
+.drawer-header{
+
+height:220px;
+padding:20px;
+
+background-image:url("https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f");
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+}
+
+.drawer-header h3{
+font-size:32px;
+}
+
+.drawer-header p{
+font-size:18px;
+color:#ddd;
+}
+
+.drawer-item{
+display:flex;
+align-items:center;
+
+gap:20px;
+padding:20px;
+
+font-size:20px;
+cursor:pointer;
+}
+
+.drawer-item:hover{
+background:#3d4f87;
+}
+
+.drawer-item i{
+width:25px;
+font-size:24px;
+}
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.6);
+display:none;
+z-index:9998;
+}
+
+.overlay.active{
+display:block;
+}
+
+.temaOscuro{
+background:black !important;
+}
+
+:root{
+    --tema:#5055a8;
+}
+
+.tab.active{
+    background:var(--tema);
+}
+
+.player{
+    background:var(--tema);
+}
+
+.importar{
+    background:var(--tema);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"
+onclick="toggleMenu()"
+id="overlay">
+</div>
+
+
+<div class="drawer"
+id="drawer">
+
+<div class="drawer-header">
+
+<h3 id="tituloMenu">
+No hay canción
+</h3>
+
+<p id="artistaMenu">
+Music Flow
+</p>
+
+</div>
+
+<div class="drawer-item"
+onclick="abrirBiblioteca()">
+<i class="fa fa-music"></i>
+<span>Biblioteca</span>
+</div>
+
+<div class="drawer-item"
+onclick="abrirVideo()">
+<i class="fa fa-video"></i>
+<span>Reproductor de video</span>
+</div>
+
+<div class="drawer-item"
+onclick="explorarCarpetas()">
+<i class="fa fa-folder"></i>
+<span>Explorar carpetas</span>
+</div>
+
+<div class="drawer-item"
+onclick="editorTonos()">
+<i class="fa fa-scissors"></i>
+<span>Editor de tonos</span>
+</div>
+
+<div class="drawer-item"
+onclick="escanearMusica()">
+<i class="fa fa-compact-disc"></i>
+<span>Escanear música</span>
+</div>
+
+<div class="drawer-item"
+onclick="temporizador()">
+<i class="fa fa-clock"></i>
+<span>Temporizador</span>
+</div>
+
+<div class="drawer-item"
+onclick="tema()">
+<i class="fa fa-palette"></i>
+<span>Estilo del tema</span>
+</div>
+
+<div class="drawer-item"
+onclick="ajustes()">
+<i class="fa fa-cog"></i>
+<span>Ajustes</span>
+</div>
+
+<div class="drawer-item"
+onclick="calificar()">
+<i class="fa fa-star"></i>
+<span>Calificar</span>
+</div>
+
+<div class="drawer-item"
+onclick="compartir()">
+<i class="fa fa-share-alt"></i>
+<span>Compartir</span>
+</div>
+
+</div>
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="header-left">
+
+<button class="menu-btn" onclick="toggleMenu()">
+    <i class="fa fa-bars"></i>
+</button>
+
+<div>Miusic flow JC</div>
+
+</div>
+
+<div class="header-icons">
+
+<i class="fa fa-search"
+   onclick="document.getElementById('buscador').focus()">
+</i>
+
+
+</div>
+
+</div>
+
+<!-- MENÚ -->
+
+<div class="tabs">
+  <button class="tab active" onclick="mostrarCanciones(this)">
+    CANCIONES
+  </button>
+
+<button class="tab" onclick="mostrarPlaylist(this)">
+    PLAYLIST
+  </button>
+
+  <button class="tab" onclick="mostrarAlbumes(this)">
+    ÁLBUMES
+  </button>
+
+  <button class="tab" onclick="mostrarArtistas(this)">
+    ARTISTAS
+  </button>
+
+
+<button onclick="vaciarBiblioteca()">
+    Vaciar biblioteca
+</button>
+</div>
+
+<div style="padding:10px 15px;">
+    <input
+        type="text"
+        id="buscador"
+        placeholder="Buscar canciones..."
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:20px;
+            outline:none;
+        ">
+</div>
+<div id="contenido"></div>
+
+
+
+<!-- INFO -->
+
+<div class="info">
+
+    <h2 id="cantidad">
+        0 Canciones
+    </h2>
+
+    <button class="btn" onclick="toggleRepeat()" id="btnRepeat">
+    🔁
+    </button>
+
+    <div class="shuffle" onclick="reproducirAleatoria()">
+        <i class="fa fa-random"></i>
+        
+    </div>
+
+</div>
+
+<!-- LISTA -->
+
+<div class="lista" id="listaCanciones"></div>
+
+
+<!-- MINI PLAYER -->
+
+<div class="player">
+
+<div class="player-left">
+
+<img id="coverActual"
+src="https://cdn-icons-png.flaticon.com/512/727/727245.png">
+
+<div class="player-song">
+
+<h4 id="tituloActual">
+No hay canción
+</h4>
+
+<p id="artistaActual">
+Music Player
+</p>
+
+<p id="tiempoActual">
+0:00 / 0:00
+</p>
+
+</div>
+
+</div>
+<div class="barra-container">
+    <input
+        type="range"
+        id="barraProgreso"
+        min="0"
+        max="100"
+        value="0">
+</div>
+<div class="player-controls">
+
+<i class="fa fa-backward"
+onclick="anterior()"></i>
+
+<i class="fa fa-play"
+id="btnPlay"
+onclick="playPause()"></i>
+
+<i class="fa fa-forward"
+onclick="siguiente()"></i>
+
+</div>
+
+</div>
+
+<!-- IMPORTAR -->
+
+<label class="importar">
+
+<i class="fa fa-plus"></i>
+
+<input type="file"
+id="selector"
+multiple
+accept="audio/*">
+
+</label>
+
+<input
+type="file"
+id="selectorVideo"
+accept="video/*"
+style="display:none"
+onchange="cargarVideo(event)">
+
+<div id="contenedorVideo"
+style="display:none;padding:15px;">
+
+<video
+id="videoPlayer"
+controls
+style="width:100%;border-radius:10px;">
+</video>
+
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+let db;
+
+const request = indexedDB.open("MusicPlayerDB", 2);
+
+request.onupgradeneeded = function(event){
+
+    db = event.target.result;
+
+    if(!db.objectStoreNames.contains("canciones")){
+
+        db.createObjectStore("canciones", {
+            keyPath: "id",
+            autoIncrement: true
+        });
+    }
+
+    if(!db.objectStoreNames.contains("playlists")){
+
+        db.createObjectStore("playlists", {
+            keyPath: "id",
+            autoIncrement: true
+        });
+    }
+};
+
+request.onsuccess = function(event){
+
+    db = event.target.result;
+
+    cargarCanciones();
+    cargarPlaylists();
+};
+
+request.onerror = function(){
+
+    console.error("Error al abrir IndexedDB");
+};
+const selector =
+document.getElementById("selector");
+
+const lista =
+document.getElementById("listaCanciones");
+
+const cantidad =
+document.getElementById("cantidad");
+
+const audio =
+document.getElementById("audio");
+
+const tituloActual =
+document.getElementById("tituloActual");
+
+const artistaActual =
+document.getElementById("artistaActual");
+
+const tiempoActual =
+document.getElementById("tiempoActual");
+
+const btnPlay =
+document.getElementById("btnPlay");
+
+const barraProgreso =
+document.getElementById("barraProgreso");
+
+const buscador =
+document.getElementById("buscador");
+
+let canciones = [];
+
+let playlists = [];
+
+let indiceActual = 0;
+buscador.addEventListener("input", () => {
+
+    const texto =
+    buscador.value.toLowerCase();
+
+    lista.innerHTML = "";
+
+    canciones
+    .filter(cancion =>
+
+        cancion.nombre
+        .toLowerCase()
+        .includes(texto)
+
+        ||
+
+        cancion.artista
+        .toLowerCase()
+        .includes(texto)
+
+        ||
+
+        cancion.album
+        .toLowerCase()
+        .includes(texto)
+
+    )
+    .forEach((cancion)=>{
+
+        const indiceReal =
+        canciones.indexOf(cancion);
+
+        const item =
+        document.createElement("div");
+
+        item.className = "item";
+
+        item.innerHTML = `
+
+        <div class="item-left">
+
+            <img src="${cancion.cover}">
+
+            <div class="song-info">
+
+                <div class="song-title">
+                    ${cancion.nombre}
+                </div>
+
+                <div class="song-artist">
+                    ${cancion.artista}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="song-time">
+            ${cancion.tiempo}
+        </div>
+        `;
+
+        item.onclick = () => {
+            reproducir(indiceReal);
+        };
+
+        lista.appendChild(item);
+    });
+
+});
+
+function formatearTiempo(segundos){
+
+    if(isNaN(segundos))
+        return "0:00";
+
+    let minutos =
+    Math.floor(segundos / 60);
+
+    segundos =
+    Math.floor(segundos % 60);
+
+    if(segundos < 10)
+        segundos = "0" + segundos;
+
+    return minutos + ":" + segundos;
+}
+
+// IMPORTAR MÚSICA
+
+selector.addEventListener("change", function () {
+
+    const archivos = Array.from(this.files);
+
+    archivos.forEach((archivo) => {
+
+        const url = URL.createObjectURL(archivo);
+
+        const audioTemp = new Audio();
+
+        audioTemp.src = url;
+
+        audioTemp.addEventListener("loadedmetadata", () => {
+
+            let duracion = Math.floor(audioTemp.duration);
+
+            let minutos = Math.floor(duracion / 60);
+
+            let segundos = duracion % 60;
+
+            if (segundos < 10) {
+                segundos = "0" + segundos;
+            }
+
+            new jsmediatags.Reader(archivo).read({
+
+
+   onSuccess: function(tag){
+
+    const tags = tag.tags;
+
+    let titulo =
+    tags.title || archivo.name;
+
+    let artista =
+    tags.artist || "Artista desconocido";
+
+    let album =
+    tags.album || "Álbum desconocido";
+
+    let portada =
+    "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+
+    if(tags.picture){
+
+        const data =
+        tags.picture.data;
+
+        const format =
+        tags.picture.format;
+
+        const byteArray =
+        new Uint8Array(data);
+
+        const blob =
+        new Blob(
+            [byteArray],
+            {type: format}
+        );
+
+        const reader =
+        new FileReader();
+
+        reader.onload = function(e){
+
+            guardarCancion({
+
+                nombre: titulo,
+                archivo: archivo,
+                artista: artista,
+                album: album,
+                tiempo: `${minutos}:${segundos}`,
+                cover: e.target.result
+
+            });
+        };
+
+        reader.readAsDataURL(blob);
+
+        return;
+    }
+
+    guardarCancion({
+
+        nombre: titulo,
+        archivo: archivo,
+        artista: artista,
+        album: album,
+        tiempo: `${minutos}:${segundos}`,
+        cover: portada
+
+    });
+},
+    onError: function(){
+
+        guardarCancion({
+    nombre: archivo.name,
+    archivo: archivo,
+    artista: "Artista desconocido",
+    album: "Álbum desconocido",
+    tiempo: `${minutos}:${segundos}`,
+    cover: "https://cdn-icons-png.flaticon.com/512/727/727245.png"
+});
+    }
+
+});
+
+        });
+
+    });
+
+});
+
+
+
+// ACTUALIZAR LISTA
+
+function actualizarLista(){
+
+    lista.innerHTML = "";
+
+    cantidad.innerHTML =
+    canciones.length + " Canciones";
+
+    canciones.forEach((cancion,index)=>{
+
+        const item =
+        document.createElement("div");
+
+        item.className = "item";
+
+        item.innerHTML = `
+
+        <div class="item-left">
+
+        <img src="${cancion.cover}">
+
+        <div class="song-info">
+
+        <div class="song-title">
+        ${cancion.nombre}
+        </div>
+
+        <div class="song-artist">
+        ${cancion.artista}
+        </div>
+
+        </div>
+
+        </div>
+
+        
+<div style="display:flex;
+align-items:center;
+gap:15px;">
+
+    <div class="song-time">
+        ${cancion.tiempo}
+    </div>
+
+    <i class="fa fa-folder-plus"
+    onclick="event.stopPropagation();
+    seleccionarPlaylist(${cancion.id})">
+    </i>
+
+    <i class="fa fa-trash"
+    onclick="event.stopPropagation();
+    eliminarCancion(${cancion.id})">
+    </i>
+
+</div>
+
+        `;
+
+        item.onclick = ()=>{
+
+            reproducir(index);
+
+        };
+
+        lista.appendChild(item);
+
+    });
+
+}
+
+
+// REPRODUCIR
+
+function reproducir(index){
+
+    indiceActual = index;
+    if(!canciones[index].archivo){
+    alert("Archivo no disponible");
+    return;
+}
+    audio.src = URL.createObjectURL(
+    canciones[index].archivo
+);
+    audio.play();
+
+   tituloActual.innerHTML =
+canciones[index].nombre;
+
+artistaActual.innerHTML =
+canciones[index].artista;
+
+document.getElementById("coverActual").src =
+canciones[index].cover;
+
+const tituloMenu =
+document.getElementById("tituloMenu");
+
+const artistaMenu =
+document.getElementById("artistaMenu");
+
+if(tituloMenu){
+    tituloMenu.innerHTML =
+    canciones[index].nombre;
+}
+
+if(artistaMenu){
+    artistaMenu.innerHTML =
+    canciones[index].artista;
+}
+
+btnPlay.className =
+"fa fa-pause";
+
+ if ("mediaSession" in navigator) {
+
+        navigator.mediaSession.metadata =
+        new MediaMetadata({
+            title: canciones[index].nombre,
+            artist: canciones[index].artista,
+            artwork: [{
+                src: canciones[index].cover,
+                sizes: "512x512",
+                type: "image/png"
+            }]
+        });
+
+        navigator.mediaSession.setActionHandler(
+            "play",
+            () => audio.play()
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "pause",
+            () => audio.pause()
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "nexttrack",
+            () => siguiente()
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "previoustrack",
+            () => anterior()
+        );
+    }
+}
+
+
+
+// PLAY / PAUSE
+
+function playPause(){
+
+    if(audio.src == "") return;
+
+    if(audio.paused){
+
+        audio.play();
+
+        btnPlay.className =
+        "fa fa-pause";
+
+    }else{
+
+        audio.pause();
+
+        btnPlay.className =
+        "fa fa-play";
+    }
+
+}
+
+
+// SIGUIENTE
+
+function siguiente(){
+
+    if(canciones.length == 0) return;
+
+    indiceActual++;
+
+    if(indiceActual >= canciones.length){
+
+        indiceActual = 0;
+    }
+
+    reproducir(indiceActual);
+
+}
+let repetir = false;
+
+
+function toggleRepeat(){
+
+    repetir = !repetir;
+
+    const btn =
+    document.getElementById("btnRepeat");
+
+    audio.loop = repetir;
+
+    btn.innerHTML =
+    repetir ? "🔂" : "🔁";
+}
+
+
+function reproducirAleatoria(){
+
+    if(canciones.length === 0) return;
+
+    const indice =
+    Math.floor(
+        Math.random() * canciones.length
+    );
+
+    reproducir(indice);
+}
+
+
+// ANTERIOR
+
+function anterior(){
+
+    if(canciones.length == 0) return;
+
+    indiceActual--;
+
+    if(indiceActual < 0){
+
+        indiceActual =
+        canciones.length - 1;
+    }
+
+    reproducir(indiceActual);
+
+}
+
+
+
+
+// AUTOMÁTICO
+
+audio.addEventListener("ended", ()=>{
+
+    siguiente();
+
+});
+
+audio.addEventListener("timeupdate", ()=>{
+
+    tiempoActual.innerHTML =
+
+    formatearTiempo(audio.currentTime)
+
+    + " / " +
+
+    formatearTiempo(audio.duration || 0);
+
+    if(audio.duration){
+
+        barraProgreso.value =
+        (audio.currentTime / audio.duration) * 100;
+    }
+
+});
+
+barraProgreso.addEventListener("input", ()=>{
+
+    if(audio.duration){
+
+        audio.currentTime =
+        (barraProgreso.value / 100)
+        * audio.duration;
+    }
+
+});
+// ===== PESTAÑAS =====
+
+function activarTab(tabSeleccionada){
+
+    document.querySelectorAll(".tab")
+    .forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    tabSeleccionada.classList.add("active");
+}
+
+function mostrarCanciones(btn){
+
+    activarTab(btn);
+
+    actualizarLista();
+}
+
+function mostrarAlbumes(btn){
+
+    activarTab(btn);
+
+    lista.innerHTML = "";
+
+    const albumes = {};
+
+    canciones.forEach(cancion => {
+
+        const album =
+        cancion.album || "Álbum desconocido";
+
+        if(!albumes[album]){
+            albumes[album] = [];
+        }
+
+        albumes[album].push(cancion);
+    });
+
+    for(const album in albumes){
+
+    const bloque =
+    document.createElement("div");
+
+    bloque.style.padding = "15px";
+    bloque.style.cursor = "pointer";
+
+    bloque.innerHTML = `
+        <h3>${album}</h3>
+        <p>${albumes[album].length} canciones</p>
+        <hr style="margin-top:10px">
+    `;
+
+    bloque.onclick = () => {
+
+    lista.innerHTML = "";
+
+    const volver =
+    document.createElement("button");
+
+    volver.innerHTML =
+    "← Volver a Álbumes";
+
+    volver.style.width = "100%";
+    volver.style.padding = "15px";
+    volver.style.marginBottom = "15px";
+    volver.style.background = "#5055a8";
+    volver.style.color = "white";
+    volver.style.border = "none";
+    volver.style.borderRadius = "10px";
+
+    volver.onclick = () => {
+
+    mostrarAlbumes(
+        document.querySelectorAll(".tab")[2]
+    );
+
+};
+
+    lista.appendChild(volver);
+
+    albumes[album].forEach((cancion)=>{
+
+        const item =
+        document.createElement("div");
+
+        item.className = "item";
+
+        item.innerHTML = `
+
+        <div class="item-left">
+
+            <img src="${cancion.cover}">
+
+            <div class="song-info">
+
+                <div class="song-title">
+                    ${cancion.nombre}
+                </div>
+
+                <div class="song-artist">
+                    ${cancion.artista}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="song-time">
+            ${cancion.tiempo}
+        </div>
+        `;
+
+        item.onclick = () => {
+
+            const indiceReal =
+            canciones.indexOf(cancion);
+
+            reproducir(indiceReal);
+        };
+
+        lista.appendChild(item);
+    });
+};
+
+            
+
+    lista.appendChild(bloque);
+}
+}
+
+function mostrarArtistas(btn){
+
+    activarTab(btn);
+
+    lista.innerHTML = "";
+
+    const artistas = {};
+
+    canciones.forEach(cancion => {
+
+        const artista =
+        cancion.artista || "Artista desconocido";
+
+        if(!artistas[artista]){
+            artistas[artista] = [];
+        }
+
+        artistas[artista].push(cancion);
+    });
+
+    for(const artista in artistas){
+
+        const bloque =
+        document.createElement("div");
+
+        bloque.style.padding = "15px";
+        bloque.style.cursor = "pointer";
+
+        bloque.innerHTML = `
+            <h3>${artista}</h3>
+            <p>${artistas[artista].length} canciones</p>
+            <hr style="margin-top:10px">
+        `;
+
+        bloque.onclick = () => {
+
+            lista.innerHTML = "";
+
+            const volver =
+            document.createElement("button");
+
+            volver.innerHTML =
+            "← Volver a Artistas";
+
+            volver.style.width = "100%";
+            volver.style.padding = "15px";
+            volver.style.marginBottom = "15px";
+            volver.style.background = "#5055a8";
+            volver.style.color = "white";
+            volver.style.border = "none";
+            volver.style.borderRadius = "10px";
+
+            volver.onclick = () => {
+                mostrarArtistas(
+                    document.querySelectorAll(".tab")[3]
+                );
+            };
+
+            lista.appendChild(volver);
+
+            artistas[artista].forEach((cancion)=>{
+
+                const item =
+                document.createElement("div");
+
+                item.className = "item";
+
+                item.innerHTML = `
+
+                <div class="item-left">
+
+                    <img src="${cancion.cover}">
+
+                    <div class="song-info">
+
+                        <div class="song-title">
+                            ${cancion.nombre}
+                        </div>
+
+                        <div class="song-artist">
+                            ${cancion.artista}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="song-time">
+                    ${cancion.tiempo}
+                </div>
+                `;
+
+                item.onclick = () => {
+
+                    const indiceReal =
+                    canciones.indexOf(cancion);
+
+                    reproducir(indiceReal);
+                };
+
+                lista.appendChild(item);
+            });
+        };
+
+        lista.appendChild(bloque);
+    }
+}
+
+
+function mostrarPlaylist(btn){
+
+    activarTab(btn);
+
+    lista.innerHTML = "";
+
+    const crear =
+    document.createElement("button");
+
+    crear.innerHTML =
+    "+ Crear Playlist";
+
+    crear.style.width = "100%";
+    crear.style.padding = "15px";
+    crear.style.marginBottom = "15px";
+
+    crear.onclick = () => {
+
+        const nombre =
+        prompt(
+            "Nombre de la playlist"
+        );
+
+        if(nombre){
+
+            crearPlaylist(nombre);
+        }
+    };
+
+    lista.appendChild(crear);
+
+    playlists.forEach(playlist => {
+
+        const item =
+        document.createElement("div");
+
+        item.className = "item";
+
+        item.innerHTML = `
+            <div class="song-info">
+                <div class="song-title">
+                    ${playlist.nombre}
+                </div>
+
+                <div class="song-artist">
+                    ${playlist.canciones.length}
+                    canciones
+                </div>
+            </div>
+        `;
+
+        item.onclick = () => {
+            abrirPlaylist(
+                playlist.id
+            );
+        };
+
+        lista.appendChild(item);
+    });
+}
+    
+
+function eliminarCancion(id){
+
+    const tx =
+    db.transaction(
+        "canciones",
+        "readwrite"
+    );
+
+    const store =
+    tx.objectStore(
+        "canciones"
+    );
+
+    store.delete(id);
+
+    tx.oncomplete = () => {
+        cargarCanciones();
+    };
+}
+
+function vaciarBiblioteca(){
+
+    if(!confirm("¿Eliminar todas las canciones?")){
+        return;
+    }
+
+    const tx =
+    db.transaction(
+        "canciones",
+        "readwrite"
+    );
+
+    const store =
+    tx.objectStore(
+        "canciones"
+    );
+
+    store.clear();
+
+    tx.oncomplete = () => {
+
+        canciones = [];
+
+        actualizarLista();
+    };
+}
+function guardarCancion(cancion){
+
+    const tx =
+    db.transaction(
+        "canciones",
+        "readwrite"
+    );
+
+    const store =
+    tx.objectStore(
+        "canciones"
+    );
+
+    const request =
+    store.add(cancion);
+
+    request.onsuccess = () => {
+
+        cargarCanciones();
+
+    };
+}
+function cargarCanciones(){
+
+    const tx =
+    db.transaction(
+        "canciones",
+        "readonly"
+    );
+
+    const store =
+    tx.objectStore(
+        "canciones"
+    );
+
+    const request =
+    store.getAll();
+
+    request.onsuccess = () => {
+
+        canciones =
+        request.result;
+
+        actualizarLista();
+    };
+}
+function crearPlaylist(nombre){
+
+    const tx =
+    db.transaction(
+        "playlists",
+        "readwrite"
+    );
+
+    const store =
+    tx.objectStore("playlists");
+
+    store.add({
+        nombre: nombre,
+        canciones: []
+    });
+
+    tx.oncomplete = () => {
+        cargarPlaylists();
+    };
+}
+function cargarPlaylists(){
+
+    const tx =
+    db.transaction(
+        "playlists",
+        "readonly"
+    );
+
+    const store =
+    tx.objectStore("playlists");
+
+    const request =
+    store.getAll();
+
+    request.onsuccess = () => {
+
+        playlists =
+        request.result;
+    };
+}
+function agregarAPlaylist(
+    playlistId,
+    cancionId
+){
+
+    const tx =
+    db.transaction(
+        "playlists",
+        "readwrite"
+    );
+
+    const store =
+    tx.objectStore(
+        "playlists"
+    );
+
+    const request =
+    store.get(
+        playlistId
+    );
+
+    request.onsuccess = () => {
+
+        const playlist =
+        request.result;
+
+        if(
+            !playlist.canciones.includes(
+                cancionId
+            )
+        ){
+
+            playlist.canciones.push(
+                cancionId
+            );
+
+            store.put(
+                playlist
+            );
+
+            cargarPlaylists();
+        }
+    };
+}
+function abrirPlaylist(id){
+
+    lista.innerHTML = "";
+
+    const playlist =
+    playlists.find(
+        p => p.id === id
+    );
+
+    playlist.canciones.forEach(idCancion => {
+
+        const cancion =
+        canciones.find(
+            c => c.id === idCancion
+        );
+
+        if(!cancion) return;
+
+        const item =
+        document.createElement("div");
+
+        item.className = "item";
+
+        item.innerHTML = `
+            <div class="item-left">
+                <img src="${cancion.cover}">
+                <div class="song-info">
+                    <div class="song-title">
+                        ${cancion.nombre}
+                    </div>
+                    <div class="song-artist">
+                        ${cancion.artista}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        item.onclick = () => {
+
+            reproducir(
+                canciones.indexOf(cancion)
+            );
+        };
+
+        lista.appendChild(item);
+    });
+}
+function seleccionarPlaylist(cancionId){
+
+    if(playlists.length === 0){
+
+        alert(
+            "Primero crea una playlist"
+        );
+
+        return;
+    }
+
+    let mensaje =
+    "Selecciona una playlist:\n\n";
+
+    playlists.forEach((playlist,index)=>{
+
+        mensaje +=
+        `${index + 1}. ${playlist.nombre}\n`;
+
+    });
+
+    const opcion =
+    prompt(mensaje);
+
+    if(!opcion) return;
+
+    const playlist =
+    playlists[opcion - 1];
+
+    if(!playlist) return;
+
+    agregarAPlaylist(
+        playlist.id,
+        cancionId
+    );
+
+    alert(
+        "Canción agregada a " +
+        playlist.nombre
+    );
+}
+function toggleMenu(){
+
+const drawer=
+document.getElementById(
+"drawer"
+);
+
+const overlay=
+document.getElementById(
+"overlay"
+);
+
+drawer.classList.toggle(
+"active"
+);
+
+overlay.classList.toggle(
+"active"
+);
+}
+
+function abrirBiblioteca(){
+
+mostrarCanciones(
+document.querySelector(".tab")
+);
+
+toggleMenu();
+
+}
+
+function abrirVideo(){
+
+document.getElementById(
+"selectorVideo"
+).click();
+
+toggleMenu();
+
+}
+
+function explorarCarpetas(){
+
+document
+.getElementById("selector")
+.click();
+
+}
+
+function editorTonos(){
+
+alert(
+"Editor de tonos próximamente"
+);
+
+}
+
+function escanearMusica(){
+
+alert(
+"Escaneando canciones..."
+);
+
+cargarCanciones();
+
+}
+
+function temporizador(){
+
+let minutos =
+prompt(
+"Apagar música en cuántos minutos?"
+);
+
+if(minutos){
+
+setTimeout(()=>{
+
+audio.pause();
+
+alert(
+"Temporizador finalizado"
+);
+
+}, minutos*60000);
+
+}
+
+}
+
+function tema(){
+
+    const color = prompt(
+        "Color principal:\n\nblue\npurple\nred\ngreen"
+    );
+
+    if(!color) return;
+
+    document.documentElement.style.setProperty(
+        "--tema",
+        color
+    );
+
+    localStorage.setItem(
+        "tema",
+        color
+    );
+}
+function ajustes(){
+
+alert(
+"Pantalla de ajustes"
+);
+
+}
+
+function calificar(){
+
+alert(
+"Gracias por calificar Music Flow"
+);
+
+}
+
+function compartir(){
+
+    if(navigator.share){
+
+        navigator.share({
+            title:"Music Flow",
+            text:"Prueba mi reproductor",
+            url:location.href
+        });
+
+    }else{
+
+        alert("Tu dispositivo no soporta compartir");
+    }
+}
+
+function abrirVideo(){
+
+    document.getElementById("selectorVideo").click();
+
+    toggleMenu();
+}
+
+function cargarVideo(event){
+
+    const archivo = event.target.files[0];
+
+    if(!archivo) return;
+
+    const video =
+    document.getElementById("videoPlayer");
+
+    video.src =
+    URL.createObjectURL(archivo);
+
+    document.getElementById("contenedorVideo")
+    .style.display = "block";
+
+    video.play();
+}
+</script>
+</body>
+</html>
